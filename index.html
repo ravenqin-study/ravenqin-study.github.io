@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raymond | Thinker, Researcher, Human</title>
+<meta name="description" content="Raymond's personal site: research, publications, CV, a notebook of random thoughts, and daily reading notes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Caveat:wght@600;700&family=Noto+Serif+SC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  /* ===== hero ===== */
+  .hero { padding: 5rem 0 2rem; }
+  .hero .wrap { display: grid; grid-template-columns: 1.35fr 1fr; gap: 3.5rem; align-items: center; }
+  .hero h1 { font-family: var(--serif); font-weight: 900; font-size: clamp(3rem, 8vw, 5.6rem); line-height: 1; letter-spacing: -0.02em; }
+  .hero .scribble { font-family: var(--hand); font-size: 1.9rem; color: var(--coral); display: inline-block; transform: rotate(-2deg); margin: .6rem 0 1.4rem; }
+  .hero p { font-size: 1.12rem; max-width: 34em; color: #33314a; }
+  .hero .actions { display: flex; gap: .9rem; flex-wrap: wrap; margin-top: 2rem; }
+
+  .now-reading {
+    position: relative; background: var(--paper); border: 2px solid var(--ink); border-radius: 14px;
+    padding: 1.6rem 1.6rem 1.4rem 5.2rem; box-shadow: 8px 8px 0 var(--saffron); transform: rotate(1.5deg);
+    text-decoration: none; display: block; transition: transform .2s;
+  }
+  .now-reading:hover { transform: rotate(0deg); }
+  .now-reading .spine-big {
+    position: absolute; left: 1.4rem; top: 1.3rem; bottom: 1.3rem; width: 2.4rem;
+    background: var(--c, var(--mint)); border: 2px solid var(--ink); border-radius: 4px;
+  }
+  .now-reading .spine-big::after { content: ''; position: absolute; left: 0; right: 0; top: 16%; height: 6px; background: rgba(26,26,46,.35); }
+  .now-reading .label { font-family: var(--hand); font-size: 1.35rem; color: var(--indigo); line-height: 1; }
+  .now-reading .book { font-family: var(--serif-zh); font-weight: 900; font-size: 1.6rem; line-height: 1.3; margin: .45rem 0 .2rem; }
+  .now-reading .note-title { color: var(--muted); font-size: .95rem; }
+  .now-reading .streak { margin-top: 1rem; font-size: .9rem; }
+  .now-reading .streak b { color: var(--coral); font-size: 1.15rem; }
+
+  /* ===== about ===== */
+  .about-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 3rem; }
+  .about-text p { font-size: 1.08rem; max-width: 36em; }
+  .about-text p + p { margin-top: 1rem; }
+  .facts { list-style: none; border: 2px solid var(--ink); border-radius: 14px; background: var(--paper); padding: 1.3rem 1.5rem; align-self: start; }
+  .facts li { display: grid; grid-template-columns: 6.5rem 1fr; gap: .8rem; padding: .55rem 0; border-bottom: 2px dashed rgba(26,26,46,.15); }
+  .facts li:last-child { border-bottom: none; }
+  .facts span { color: var(--muted); }
+
+  /* ===== projects ===== */
+  .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.6rem; }
+  .project { border: 2px solid var(--ink); border-radius: 14px; background: var(--paper); overflow: hidden; display: flex; flex-direction: column; }
+  .project .band { height: 12px; background: var(--c); border-bottom: 2px solid var(--ink); }
+  .project .body { padding: 1.4rem 1.5rem 1.5rem; display: flex; flex-direction: column; gap: .7rem; flex: 1; }
+  .project h3 { font-family: var(--serif); font-size: 1.4rem; line-height: 1.25; }
+  .project p { color: #3b394f; }
+  .project .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: .6rem; flex-wrap: wrap; }
+  .status { font-family: var(--hand); font-size: 1.2rem; color: var(--indigo); }
+
+  /* ===== publications ===== */
+  .pub-year { display: grid; grid-template-columns: 5.5rem 1fr; gap: 1.5rem; padding: 1.4rem 0; border-top: 2px solid var(--ink); }
+  .pub-year > h3 { font-family: var(--serif); font-size: 1.9rem; line-height: 1.1; color: var(--indigo); }
+  .pub { list-style: none; }
+  .pub li + li { margin-top: 1.3rem; }
+  .pub .title { font-weight: 700; font-size: 1.08rem; line-height: 1.45; }
+  .pub .authors { color: #3b394f; }
+  .pub .venue { font-family: var(--serif); font-style: italic; color: var(--muted); }
+  .pub .links { display: flex; gap: .5rem; margin-top: .5rem; }
+
+  /* ===== cv ===== */
+  .cv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .cv-col h3 { font-family: var(--serif); font-size: 1.5rem; margin-bottom: 1rem; }
+  .timeline { list-style: none; border-left: 3px solid var(--ink); margin-left: .4rem; }
+  .timeline li { position: relative; padding: 0 0 1.5rem 1.6rem; }
+  .timeline li::before { content: ''; position: absolute; left: -.62rem; top: .35rem; width: .95rem; height: .95rem; border-radius: 50%; background: var(--c, var(--saffron)); border: 2px solid var(--ink); }
+  .timeline .when { font-size: .88rem; color: var(--muted); }
+  .timeline .what { font-weight: 700; line-height: 1.4; }
+  .timeline .where { color: #3b394f; }
+  .skills { margin-top: 2rem; }
+  .skills h3 { font-family: var(--serif); font-size: 1.5rem; margin-bottom: .8rem; }
+  .skills .chips span { font-size: .9rem; padding: .25rem .8rem; border: 2px solid var(--ink); border-radius: 999px; background: var(--paper); }
+
+  /* ===== notebook ===== */
+  .nb-filters { margin-bottom: 2rem; }
+  .board { columns: 3 290px; column-gap: 1.6rem; }
+  .card {
+    break-inside: avoid; margin-bottom: 1.6rem; padding: 1.3rem 1.4rem 1.2rem;
+    border: 2px solid var(--ink); border-radius: 6px 16px 10px 14px; background: var(--bg);
+    transform: rotate(var(--r, 0deg)); transition: transform .2s;
+  }
+  .card:nth-child(3n+1) { --r: -1.2deg; }
+  .card:nth-child(3n+2) { --r: .8deg; }
+  .card:nth-child(4n) { --r: -.4deg; }
+  .card:hover { transform: rotate(0deg); }
+  .card[hidden] { display: none; }
+  .card .kind { font-family: var(--hand); font-size: 1.25rem; line-height: 1; color: var(--ink); opacity: .75; }
+  .card h3 { font-family: var(--serif); font-size: 1.3rem; line-height: 1.3; margin: .4rem 0 .5rem; }
+  .card p { font-size: .98rem; }
+  .card .date { font-size: .8rem; color: var(--muted); margin-top: .8rem; }
+  .card .more { margin-top: .9rem; font-size: .98rem; }
+  .card .more p + p { margin-top: .7rem; }
+  .card .toggle { margin-top: .9rem; }
+  .card.essay   { --bg: #FDE6C3; }
+  .card.story   { --bg: #E6DFF0; }
+  .card.photo   { --bg: var(--paper); }
+  .card.joke    { --bg: #F9DCE2; }
+  .card.thought { --bg: #D5EFE6; }
+  .card.joke .setup { font-size: 1.1rem; font-weight: 500; }
+  .card.joke .punch { font-family: var(--hand); font-size: 1.6rem; line-height: 1.2; color: var(--indigo); margin-top: .7rem; }
+  .card.thought p { font-family: var(--serif); font-style: italic; font-size: 1.15rem; line-height: 1.55; }
+  .photo-frame { aspect-ratio: 4 / 3; border: 2px solid var(--ink); border-radius: 4px; margin: .5rem 0 .7rem; overflow: hidden; background: var(--ph); }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ===== reading teaser ===== */
+  .reading-box { border: 2px solid var(--ink); border-radius: 16px; background: var(--paper); padding: 2rem 2rem 1.6rem; box-shadow: 8px 8px 0 var(--mint); }
+  .reading-box .intro { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+  .reading-box .intro p { color: var(--muted); }
+  .mini-entry { display: grid; grid-template-columns: 4.2rem 1fr; gap: 1rem; padding: 1rem 0; border-top: 2px dashed rgba(26,26,46,.18); text-decoration: none; }
+  .mini-entry .d { text-align: center; line-height: 1.1; }
+  .mini-entry .d b { font-family: var(--serif); font-size: 1.8rem; display: block; }
+  .mini-entry .d small { color: var(--muted); font-size: .78rem; }
+  .mini-entry .b { font-size: .88rem; font-weight: 500; }
+  .mini-entry h3 { font-family: var(--serif-zh); font-size: 1.15rem; line-height: 1.4; }
+  .mini-entry:hover h3 { text-decoration: underline; text-decoration-color: var(--saffron); text-decoration-thickness: 3px; text-underline-offset: 4px; }
+
+  @media (max-width: 860px) {
+    .hero .wrap, .about-grid, .cv-grid { grid-template-columns: 1fr; }
+    .hero { padding-top: 3rem; }
+    .now-reading { transform: rotate(0.8deg); }
+    .pub-year { grid-template-columns: 1fr; gap: .6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= NAV (same on every page) ================= -->
+<nav class="site-nav" aria-label="Main">
+  <a class="nav-logo" href="index.html">Raymond</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#research">Research</a></li>
+    <li><a href="index.html#publications">Publications</a></li>
+    <li><a href="index.html#cv">CV</a></li>
+    <li><a href="index.html#notebook">Notebook</a></li>
+    <li><a href="reading.html">读书笔记</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Hi, I'm Raymond.</h1>
+      <div class="scribble">researcher by day, collector of odd thoughts by night</div>
+      <p>I work on statistical methods for messy real-world data. This site is where the papers live, and also where the essays, photos, half-finished stories and questionable jokes end up. Lately I write a short note on whatever I'm reading every day.</p>
+      <div class="actions">
+        <a class="btn primary" href="reading.html">Read my reading notes</a>
+        <a class="btn" href="#research">See my research</a>
+      </div>
+    </div>
+
+    <!-- Filled automatically from reading/notes.json -->
+    <a class="now-reading" id="now-reading" href="reading.html" hidden>
+      <span class="spine-big"></span>
+      <div class="label">currently reading</div>
+      <div class="book" id="nr-book"></div>
+      <div class="note-title" id="nr-title"></div>
+      <div class="streak" id="nr-streak"></div>
+    </a>
+  </div>
+</header>
+
+<!-- ================= ABOUT ================= -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="section-head"><h2>About</h2><span class="aside">the short version</span></div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm a [PhD student / researcher] at [University], working with [Advisor] on [your research area]. Most of my days go into building models, checking why they don't fit, and then building better ones.</p>
+        <p>Outside of research I read a lot, mostly philosophy, history and the occasional novel, take photos on long walks, and write things that don't fit anywhere else. The Notebook section below is where those end up.</p>
+        <p>If you want to talk about research, books, or have a cold joke worse than mine, send me an email.</p>
+      </div>
+      <ul class="facts">
+        <li><span>Now</span><div>[Position], [University]</div></li>
+        <li><span>Studying</span><div>[Field / sub-field]</div></li>
+        <li><span>Reading</span><div id="fact-reading">a few pages every day</div></li>
+        <li><span>Languages</span><div>中文, English, [Deutsch]</div></li>
+        <li><span>Email</span><div><a href="mailto:you@example.com">you@example.com</a></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RESEARCH / PROJECTS ================= -->
+<section class="section" id="research">
+  <div class="wrap">
+    <div class="section-head"><h2>Research &amp; projects</h2><span class="aside">what keeps me busy</span></div>
+    <div class="projects">
+      <article class="project" style="--c: var(--saffron)">
+        <div class="band"></div>
+        <div class="body">
+          <h3>Robust models for noisy measurements</h3>
+          <p>Methods that stay reliable when a few data points are badly wrong, and diagnostics that tell you which ones.</p>
+          <div class="tags"><span class="tag">statistics</span><span class="tag">robustness</span></div>
+          <div class="foot"><span class="status">ongoing</span><a class="btn small" href="#">Details</a></div>
+        </div>
+      </article>
+      <article class="project" style="--c: var(--mint)">
+        <div class="band"></div>
+        <div class="body">
+          <h3>An open-source toolkit for model diagnostics</h3>
+          <p>A small Python package that turns residual plots into readable reports, so checking a model takes minutes instead of an afternoon.</p>
+          <div class="tags"><span class="tag">python</span><span class="tag">open source</span></div>
+          <div class="foot"><span class="status">v0.3 released</span><a class="btn small" href="https://github.com/">GitHub</a></div>
+        </div>
+      </article>
+      <article class="project" style="--c: var(--sky)">
+        <div class="band"></div>
+        <div class="body">
+          <h3>Visualising uncertainty for non-experts</h3>
+          <p>A side project testing which chart designs help people read a forecast's uncertainty correctly.</p>
+          <div class="tags"><span class="tag">visualisation</span><span class="tag">side project</span></div>
+          <div class="foot"><span class="status">early stage</span><a class="btn small" href="#">Notes</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PUBLICATIONS ================= -->
+<section class="section" id="publications">
+  <div class="wrap">
+    <div class="section-head"><h2>Publications</h2><span class="aside">the official record</span></div>
+
+    <div class="pub-year">
+      <h3>2026</h3>
+      <ul class="pub">
+        <li>
+          <div class="title">A diagnostic framework for heavy-tailed residuals in regression models</div>
+          <div class="authors"><b>Raymond [Surname]</b>, [Co-author], [Advisor]</div>
+          <div class="venue">[Journal / Conference], 2026</div>
+          <div class="links"><a class="btn small" href="#">PDF</a><a class="btn small" href="#">Code</a></div>
+        </li>
+      </ul>
+    </div>
+    <div class="pub-year">
+      <h3>2025</h3>
+      <ul class="pub">
+        <li>
+          <div class="title">When do robust estimators actually help? An empirical comparison</div>
+          <div class="authors">[Co-author], <b>Raymond [Surname]</b></div>
+          <div class="venue">[Workshop name], 2025</div>
+          <div class="links"><a class="btn small" href="#">PDF</a><a class="btn small" href="#">Slides</a></div>
+        </li>
+        <li>
+          <div class="title">Uncertainty displays and how people misread them</div>
+          <div class="authors"><b>Raymond [Surname]</b>, [Co-author]</div>
+          <div class="venue">Preprint, 2025</div>
+          <div class="links"><a class="btn small" href="#">arXiv</a></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CV ================= -->
+<section class="section" id="cv">
+  <div class="wrap">
+    <div class="section-head"><h2>CV</h2><span class="aside">the long version is a PDF</span></div>
+    <div class="cv-grid">
+      <div class="cv-col">
+        <h3>Education</h3>
+        <ol class="timeline">
+          <li style="--c: var(--saffron)"><div class="when">2023 – present</div><div class="what">PhD in [Field]</div><div class="where">[University]</div></li>
+          <li style="--c: var(--mint)"><div class="when">2021 – 2023</div><div class="what">MSc in [Field]</div><div class="where">[University]</div></li>
+          <li style="--c: var(--sky)"><div class="when">2017 – 2021</div><div class="what">BSc in [Field]</div><div class="where">[University]</div></li>
+        </ol>
+      </div>
+      <div class="cv-col">
+        <h3>Experience</h3>
+        <ol class="timeline">
+          <li style="--c: var(--coral)"><div class="when">2025</div><div class="what">Research intern</div><div class="where">[Company / Lab]</div></li>
+          <li style="--c: var(--lavender)"><div class="when">2023 – present</div><div class="what">Teaching assistant, [Course]</div><div class="where">[University]</div></li>
+        </ol>
+        <div class="skills">
+          <h3>Tools</h3>
+          <div class="chips"><span>R</span><span>Python</span><span>Stan</span><span>SQL</span><span>LaTeX</span><span>Git</span></div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:2rem"><a class="btn primary" href="cv.pdf">Download full CV (PDF)</a></p>
+  </div>
+</section>
+
+<!-- ================= NOTEBOOK ================= -->
+<section class="section" id="notebook">
+  <div class="wrap">
+    <div class="section-head"><h2>Notebook</h2><span class="aside">random thoughts live here</span></div>
+
+    <div class="chips nb-filters" role="group" aria-label="Filter notebook">
+      <button class="chip" data-kind="all" aria-pressed="true">All</button>
+      <button class="chip" data-kind="essay" aria-pressed="false">Essays</button>
+      <button class="chip" data-kind="story" aria-pressed="false">Short stories</button>
+      <button class="chip" data-kind="photo" aria-pressed="false">Photos</button>
+      <button class="chip" data-kind="joke" aria-pressed="false">Cold jokes</button>
+      <button class="chip" data-kind="thought" aria-pressed="false">Thoughts</button>
+    </div>
+
+    <!--
+      HOW TO ADD A CARD: copy one <article class="card ..."> block and change the text.
+      Kinds: essay, story, photo, joke, thought.
+      For long text, put it inside <div class="more" hidden> and keep the toggle button.
+    -->
+    <div class="board" id="board">
+
+      <article class="card essay">
+        <div class="kind">essay</div>
+        <h3>On the art of staring at residual plots</h3>
+        <p>What it means to spend three hours looking at dots and calling it research.</p>
+        <div class="more" hidden>
+          <p>Every model is a story you tell about the data. The residuals are the parts of the data that refuse to go along with the story.</p>
+          <p>I used to treat them as noise to be minimised. Now I read them more like marginal comments from a patient but slightly annoyed editor: here you were too confident, here you forgot something, here you simply got it wrong.</p>
+          <p>Three hours of staring is how you learn to hear them.</p>
+        </div>
+        <button class="btn small toggle" aria-expanded="false">Read the essay</button>
+        <div class="date">January 2026</div>
+      </article>
+
+      <article class="card joke">
+        <div class="kind">cold joke</div>
+        <div class="setup">A null hypothesis walks into a bar.</div>
+        <div class="punch" hidden>The bartender says: “We weren't expecting anything from you.”</div>
+        <button class="btn small toggle" aria-expanded="false">Show punchline</button>
+      </article>
+
+      <article class="card photo">
+        <div class="kind">photo</div>
+        <!-- Replace the gradient with a real photo: <img src="images/river.jpg" alt="Describe the photo"> -->
+        <div class="photo-frame" style="--ph: linear-gradient(160deg, #6DAEDB 0%, #B8A9C9 55%, #F4A236 100%)"></div>
+        <p>River at 7pm, the one evening this month the clouds cooperated.</p>
+        <div class="date">September 2026</div>
+      </article>
+
+      <article class="card thought">
+        <div class="kind">thought</div>
+        <p>Maybe the point of writing a note every day isn't to remember the book. It's to notice what I was thinking about that day.</p>
+        <div class="date">September 2026</div>
+      </article>
+
+      <article class="card story">
+        <div class="kind">short story</div>
+        <h3>The librarian who returned every book</h3>
+        <p>A 500-word story about a library where the books borrow the readers.</p>
+        <div class="more" hidden>
+          <p>Nobody in town remembered when the library started lending people out. It began quietly: a man went in for a book on bridges and came out three weeks later, knowing things about rivers he could not explain.</p>
+          <p>The librarian kept a card for every reader, stamped with the dates the books had borrowed them. Some came back changed. Some came back overdue.</p>
+          <p>[Continue your story here.]</p>
+        </div>
+        <button class="btn small toggle" aria-expanded="false">Read the story</button>
+        <div class="date">March 2026</div>
+      </article>
+
+      <article class="card joke">
+        <div class="kind">冷笑话</div>
+        <div class="setup">为什么统计学家从不迷路？</div>
+        <div class="punch" hidden>因为他们总在置信区间里。</div>
+        <button class="btn small toggle" aria-expanded="false">看答案</button>
+      </article>
+
+      <article class="card photo">
+        <div class="kind">photo</div>
+        <div class="photo-frame" style="--ph: linear-gradient(200deg, #5ABFA1 0%, #F2C4CE 100%)"></div>
+        <p>A café window, a book, and rain I didn't mind for once.</p>
+        <div class="date">May 2026</div>
+      </article>
+
+      <article class="card thought">
+        <div class="kind">thought</div>
+        <p>All models are wrong. Some are useful. Most are due on Friday.</p>
+        <div class="date">February 2026</div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= READING TEASER ================= -->
+<section class="section" id="reading">
+  <div class="wrap">
+    <div class="section-head"><h2>读书笔记</h2><span class="aside">a page a day</span></div>
+    <div class="reading-box">
+      <div class="intro">
+        <p id="reading-summary">每天读一点，写一点。</p>
+        <a class="btn primary" href="reading.html">查看全部笔记</a>
+      </div>
+      <div id="reading-latest"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER (same on every page) ================= -->
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="sign">thanks for stopping by</span>
+    <div class="links">
+      <a href="mailto:you@example.com">Email</a>
+      <a href="https://github.com/">GitHub</a>
+      <a href="https://scholar.google.com/">Google Scholar</a>
+      <a href="reading.html">读书笔记</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/notes.js"></script>
+<script>
+/* ---------- notebook: filters + expand/reveal ---------- */
+const chips = document.querySelectorAll('.nb-filters .chip');
+chips.forEach(chip => chip.addEventListener('click', () => {
+  const kind = chip.dataset.kind;
+  chips.forEach(c => c.setAttribute('aria-pressed', c === chip));
+  document.querySelectorAll('#board .card').forEach(card => {
+    card.hidden = kind !== 'all' && !card.classList.contains(kind);
+  });
+}));
+
+document.querySelectorAll('#board .toggle').forEach(btn => {
+  const card = btn.closest('.card');
+  const target = card.querySelector('.more, .punch');
+  const openLabel = btn.textContent;
+  const closeLabel = card.classList.contains('joke') ? (/[\u4e00-\u9fff]/.test(openLabel) ? '收起' : 'Hide') : 'Show less';
+  btn.addEventListener('click', () => {
+    const open = target.hidden;
+    target.hidden = !open;
+    btn.setAttribute('aria-expanded', open);
+    btn.textContent = open ? closeLabel : openLabel;
+  });
+});
+
+/* ---------- reading notes: hero card + latest 3 ---------- */
+(async () => {
+  let notes;
+  try { notes = await loadNotes(); } catch (e) {
+    document.getElementById('reading-latest').innerHTML = `<div class="empty-state">没能读取读书笔记。${LOCAL_FILE_HINT}</div>`;
+    return;
+  }
+  if (!notes.length) {
+    document.getElementById('reading-latest').innerHTML = `<div class="empty-state">还没有笔记。运行 <code>python3 new_note.py</code> 写下第一篇。</div>`;
+    return;
+  }
+  const latest = notes[0];
+  const streak = readingStreak(notes);
+  const books = new Set(notes.map(n => n.book)).size;
+
+  // hero card
+  const nr = document.getElementById('now-reading');
+  nr.style.setProperty('--c', bookColor(latest.book));
+  nr.href = `reading.html#/note/${encodeURIComponent(latest.id)}`;
+  document.getElementById('nr-book').textContent = `《${latest.book}》`;
+  document.getElementById('nr-title').textContent = `Latest note: ${latest.title}`;
+  document.getElementById('nr-streak').innerHTML = streak > 1 ? `<b>${streak}</b> days in a row` : `${notes.length} notes so far`;
+  nr.hidden = false;
+  document.getElementById('fact-reading').textContent = `《${latest.book}》`;
+
+  // teaser
+  document.getElementById('reading-summary').textContent =
+    `已经写了 ${notes.length} 篇，读了 ${books} 本书` + (streak > 1 ? `，连续记录 ${streak} 天。` : '。');
+  document.getElementById('reading-latest').innerHTML = notes.slice(0, 3).map(n => {
+    const d = parseDate(n.date);
+    return `<a class="mini-entry" href="reading.html#/note/${encodeURIComponent(n.id)}" style="--c:${bookColor(n.book)}">
+      <div class="d"><b>${d.getDate()}</b><small>${d.getMonth() + 1} 月</small></div>
+      <div><div class="b"><i class="book-mark"></i>《${esc(n.book)}》</div><h3>${esc(n.title)}</h3></div>
+    </a>`;
+  }).join('');
+})();
+</script>
+</body>
+</html>
