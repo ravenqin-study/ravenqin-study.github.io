@@ -19,3 +19,13 @@
 ## 本地预览
     python3 -m http.server
     # 打开 http://localhost:8000
+
+## 锻炼打卡
+- 页面：workout.html
+- 记录：workout/log.json
+- 照片：workout/photos/
+
+只打勾：在 log.json 第一行 `[` 下面加一行
+    { "date": "2026-09-24" },
+带照片：先把照片传到 workout/photos/，再加
+    { "date": "2026-09-24", "type": "跑步", "minutes": 30, "km": 5, "note": "一句话", "photos": ["2026-09-24-1.jpg"] },

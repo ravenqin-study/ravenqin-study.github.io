@@ -1,4 +1,4 @@
-/* Shared helpers for the reading notes (used by index.html and reading.html) */
+/* Shared helpers (used by index.html, reading.html and workout.html) */
 const NOTES_INDEX = 'reading/notes.json';
 const NOTES_DIR = 'reading/notes/';
 const BOOK_PALETTE = ['#F4A236', '#E8645A', '#5ABFA1', '#6DAEDB', '#B8A9C9', '#F2C4CE', '#3D3B8E', '#E9C46A'];
@@ -17,13 +17,15 @@ async function loadNotes() {
   return notes.sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
 }
 
-function readingStreak(notes) {
-  const days = new Set(notes.map(n => n.date));
+// consecutive days (ending today or yesterday) that have at least one entry
+function dayStreak(items) {
+  const days = new Set(items.map(n => n.date));
   const d = new Date();
   if (!days.has(ymd(d))) d.setDate(d.getDate() - 1); // not written yet today doesn't break it
   let n = 0;
   while (days.has(ymd(d))) { n++; d.setDate(d.getDate() - 1); }
   return n;
 }
+const readingStreak = dayStreak;
 
 const LOCAL_FILE_HINT = `如果你是直接双击打开的本地文件，浏览器会拦截读取。请在网站根目录运行 <code>python3 -m http.server</code>，再访问 http://localhost:8000`;
